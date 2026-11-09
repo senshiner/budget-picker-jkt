@@ -1,4 +1,4 @@
-    // daftar lokasi
+    // Lokasi — dipakai di Beranda (index.html) dan Jelajah (jelajah.html)
     const LOCATIONS = [
       {
         label: "Wilayah Administratif",
@@ -35,7 +35,7 @@
     renderLocationOptions("lokasi-budget", "Semua Jakarta");
     renderLocationOptions("jelajah-wilayah", "Semua wilayah");
 
-    // data kuliner
+    // Data kuliner — dipakai semua halaman
     const DAFTAR_KULINER = [
       { nama: "Siomay", harga: 10000, kategori: "makanan", foto: "src/img-01.jpg", area: ["Blok M", "Jakarta Selatan"], tempat: "gerobak sekitar Blok M dan terminal", deskripsi: "Olahan ikan kukus dengan tahu, kentang, kol, dan saus kacang." },
       { nama: "Batagor", harga: 10000, kategori: "makanan", foto: "src/img-02.jpg", area: ["Tebet", "Jakarta Selatan"], tempat: "jajanan sore di Tebet", deskripsi: "Tahu dan adonan ikan goreng renyah, disiram saus kacang dan kecap." },
@@ -69,7 +69,7 @@
       { nama: "Kopi Susu Gula Aren", harga: 18000, kategori: "minuman", foto: "src/img-30.jpg", area: ["Kemang", "Jakarta Selatan"], tempat: "kedai kopi kecil di Kemang", deskripsi: "Espresso, susu, dan gula aren dengan rasa manis-karamel." }
     ];
 
-    // format harga
+    // Util — format harga dan urutan (dipakai semua halaman)
     function formatRupiah(angka) {
       return "Rp " + angka.toLocaleString("id-ID");
     }
@@ -80,7 +80,7 @@
       });
     }
 
-    // buat kartu kuliner
+    // Kartu kuliner — dipakai di Beranda (hasil pencarian) dan Jelajah
     function makeRow(item, showBadge) {
       const li = document.createElement("li");
       li.className = "food-row";
@@ -150,12 +150,14 @@
       });
     }
 
+    // Jelajah — tampilkan semua kuliner saat halaman dimuat (jelajah.html)
     const allSorted = sortedItems(DAFTAR_KULINER);
     if (document.getElementById("jelajah-list")) {
       renderList("jelajah-list", allSorted, true);
       document.getElementById("jelajah-info").textContent = allSorted.length + " hasil";
     }
 
+    // Detail — detail.html
     function renderDetails() {
       const target = document.getElementById("detail-list");
       if (!target) {
@@ -184,7 +186,7 @@
     }
     renderDetails();
 
-    // favorit (tersimpan di localStorage, tanpa backend)
+    // Favorit — favorit.html (tombol hati ada di Beranda, Jelajah, dan Favorit; tersimpan di localStorage, tanpa backend)
     const FAVORIT_KEY = "bpjk-favorit";
     function getFavorit() {
       try {
@@ -248,7 +250,7 @@
       renderFavorit();
     }
 
-    // menu mobile
+    // Menu mobile — semua halaman
     const menuToggle = document.querySelector(".menu-toggle");
     menuToggle.addEventListener("click", function() {
       const nav = document.getElementById("main-nav");
@@ -256,7 +258,7 @@
       menuToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
-    // cari sesuai budget dan lokasi (hanya di index.html)
+    // Beranda — cari sesuai budget dan lokasi (index.html)
     const formBudget = document.getElementById("form-budget");
     if (formBudget) {
       formBudget.addEventListener("submit", function(event) {
@@ -300,7 +302,7 @@
       document.getElementById("jelajah-info").textContent = hasil.length + " hasil";
     }
 
-    // filter dan pencarian (hanya di jelajah.html)
+    // Jelajah — filter dan pencarian (jelajah.html)
     const jelajahSearch = document.getElementById("jelajah-search");
     if (jelajahSearch) {
       jelajahSearch.addEventListener("input", updateBrowse);
