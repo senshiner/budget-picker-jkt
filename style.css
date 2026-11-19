@@ -233,8 +233,7 @@
     select option,
     select optgroup { background: var(--surface); color: var(--ink); }
 
-    .primary-button,
-    .secondary-button {
+    .primary-button {
       min-height: 48px;
       padding: 12px 20px;
       border: 1px solid transparent;
@@ -252,12 +251,9 @@
       text-decoration: none;
     }
     .primary-button:hover { background: var(--drink); color: var(--surface); }
-    .primary-button:active,
-    .secondary-button:active { transform: translateY(1px); }
+    .primary-button:active { transform: translateY(1px); }
     .budget-panel .primary-button { width: 100%; background: var(--green); color: var(--surface); }
     .budget-panel .primary-button:hover { background: var(--green); filter: brightness(0.85); color: var(--surface); }
-    .secondary-button { background: transparent; border-color: var(--green); color: var(--green); }
-    .secondary-button:hover { background: var(--green); color: var(--surface); }
 
     .results-block { padding: 44px 0 10px; }
     .section-bar {
@@ -348,8 +344,7 @@
       white-space: nowrap;
     }
 
-    .browse-tools,
-    .category-filter-panel {
+    .browse-tools {
       margin-bottom: 30px;
       padding: 30px;
       border: 1px solid var(--green);
@@ -421,13 +416,6 @@
     .detail-summary-meta { display: block; margin-top: 3px; color: var(--muted); font-size: 0.875rem; line-height: 1.45; font-weight: 500; }
     .detail-body { margin: 0 0 18px 108px; padding: 18px 22px; background: var(--surface); }
     .detail-body p { margin: 0 0 7px; font-size: 0.95rem; }
-
-    .category-filter-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .category-filter-panel .field { margin: 0; }
 
     .story-grid,
     .contact-grid {
@@ -514,15 +502,13 @@
       .budget-panel .primary-button { background: var(--green); color: var(--surface); }
       .budget-panel,
       .browse-tools,
-      .category-filter-panel,
       .story-grid,
       .contact-grid {
         border-color: var(--green);
         box-shadow: 9px 9px 0 var(--green-soft);
       }
       .budget-panel h2,
-      .budget-panel label,
-      .category-filter-panel label { color: var(--ink); }
+      .budget-panel label { color: var(--ink); }
       .budget-panel .primary-button:hover { filter: brightness(1.18); }
       .filter-button { background: var(--surface); color: var(--ink); }
       .category-badge { color: var(--ink); }
@@ -570,14 +556,12 @@
       }
       .budget-panel,
       .browse-tools,
-      .category-filter-panel,
       .story-grid,
       .contact-grid {
         padding: 24px 20px;
         box-shadow: 6px 6px 0 var(--green-soft);
       }
       .browse-tools { grid-template-columns: 1fr; }
-      .category-filter-panel { grid-template-columns: 1fr; }
       .food-row {
         grid-template-columns: 72px minmax(0, 1fr);
         gap: 12px;
