@@ -1,4 +1,4 @@
-    // daftar lokasi
+    // Lokasi — dipakai di Beranda (index.html) dan Jelajah (jelajah.html)
     const LOCATIONS = [
       {
         label: "Wilayah Administratif",
@@ -12,6 +12,9 @@
 
     function renderLocationOptions(selectId, allLabel) {
       const select = document.getElementById(selectId);
+      if (!select) {
+        return;
+      }
       const allOption = document.createElement("option");
       allOption.value = "semua";
       allOption.textContent = allLabel;
@@ -32,7 +35,7 @@
     renderLocationOptions("lokasi-budget", "Semua Jakarta");
     renderLocationOptions("jelajah-wilayah", "Semua wilayah");
 
-    // data kuliner
+    // Data kuliner — dipakai semua halaman
     const DAFTAR_KULINER = [
       { nama: "Siomay", harga: 10000, kategori: "makanan", foto: "src/img-01.jpg", area: ["Blok M", "Jakarta Selatan"], tempat: "gerobak sekitar Blok M dan terminal", deskripsi: "Olahan ikan kukus dengan tahu, kentang, kol, dan saus kacang." },
       { nama: "Batagor", harga: 10000, kategori: "makanan", foto: "src/img-02.jpg", area: ["Tebet", "Jakarta Selatan"], tempat: "jajanan sore di Tebet", deskripsi: "Tahu dan adonan ikan goreng renyah, disiram saus kacang dan kecap." },
@@ -66,7 +69,7 @@
       { nama: "Kopi Susu Gula Aren", harga: 18000, kategori: "minuman", foto: "src/img-30.jpg", area: ["Kemang", "Jakarta Selatan"], tempat: "kedai kopi kecil di Kemang", deskripsi: "Espresso, susu, dan gula aren dengan rasa manis-karamel." }
     ];
 
-    // format harga
+    // Util — format harga dan urutan (dipakai semua halaman)
     function formatRupiah(angka) {
       return "Rp " + angka.toLocaleString("id-ID");
     }
@@ -77,7 +80,7 @@
       });
     }
 
-    // buat kartu kuliner
+    // Kartu kuliner — dipakai di Beranda (hasil pencarian) dan Jelajah
     function makeRow(item, showBadge) {
       const li = document.createElement("li");
       li.className = "food-row";
@@ -138,18 +141,28 @@
 
     function renderList(targetId, items, showBadge) {
       const target = document.getElementById(targetId);
+      if (!target) {
+        return;
+      }
       target.innerHTML = "";
       items.forEach(function(item) {
         target.appendChild(makeRow(item, showBadge));
       });
     }
 
+    // Jelajah — tampilkan semua kuliner saat halaman dimuat (jelajah.html)
     const allSorted = sortedItems(DAFTAR_KULINER);
-    renderList("jelajah-list", allSorted, true);
-    document.getElementById("jelajah-info").textContent = allSorted.length + " hasil";
+    if (document.getElementById("jelajah-list")) {
+      renderList("jelajah-list", allSorted, true);
+      document.getElementById("jelajah-info").textContent = allSorted.length + " hasil";
+    }
 
+    // Detail — detail.html
     function renderDetails() {
       const target = document.getElementById("detail-list");
+      if (!target) {
+        return;
+      }
       DAFTAR_KULINER.forEach(function(item) {
         const details = document.createElement("details");
         details.className = "detail-item";
@@ -173,7 +186,7 @@
     }
     renderDetails();
 
-    // favorit (tersimpan di localStorage, tanpa backend)
+    // Favorit — favorit.html (tombol hati ada di Beranda, Jelajah, dan Favorit; tersimpan di localStorage, tanpa backend)
     const FAVORIT_KEY = "bpjk-favorit";
     function getFavorit() {
       try {
@@ -205,19 +218,24 @@
         return isFavorit(item.nama);
       });
       const target = document.getElementById("favorit-list");
-      target.innerHTML = "";
-      items.forEach(function(item) {
-        target.appendChild(makeRow(item, true));
-      });
-      document.getElementById("favorit-empty").hidden = items.length > 0;
-      document.getElementById("favorit-info").textContent = items.length + " favorit";
-      const totalEl = document.getElementById("favorit-total");
-      totalEl.hidden = items.length === 0;
-      if (items.length > 0) {
-        const total = items.reduce(function(sum, item) { return sum + item.harga; }, 0);
-        totalEl.textContent = "Total: " + formatRupiah(total);
+      if (target) {
+        target.innerHTML = "";
+        items.forEach(function(item) {
+          target.appendChild(makeRow(item, true));
+        });
+        document.getElementById("favorit-empty").hidden = items.length > 0;
+        document.getElementById("favorit-info").textContent = items.length + " favorit";
+        const totalEl = document.getElementById("favorit-total");
+        totalEl.hidden = items.length === 0;
+        if (items.length > 0) {
+          const total = items.reduce(function(sum, item) { return sum + item.harga; }, 0);
+          totalEl.textContent = "Total: " + formatRupiah(total);
+        }
       }
       refreshFavButtons();
+    }
+    if (document.getElementById("favorit-list")) {
+      renderFavorit();
     }
     function toggleFavorit(nama) {
       const list = getFavorit();
@@ -229,38 +247,10 @@
       }
       setFavorit(list);
       refreshFavButtons();
-      refreshFavButtons();
       renderFavorit();
     }
 
-    // pindah halaman
-    function showPage(pageId) {
-      const validPage = document.getElementById(pageId) && document.getElementById(pageId).classList.contains("page") ? pageId : "beranda";
-      document.querySelectorAll(".page").forEach(function(page) {
-        page.classList.toggle("active", page.id === validPage);
-      });
-      document.querySelectorAll(".nav-link").forEach(function(link) {
-        if (link.dataset.page === validPage) {
-          link.setAttribute("aria-current", "page");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      });
-      document.getElementById("main-nav").classList.remove("open");
-      document.querySelector(".menu-toggle").setAttribute("aria-expanded", "false");
-      if (pageId === "favorit") {
-        renderFavorit();
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function syncRoute() {
-      showPage(window.location.hash.replace("#", "") || "beranda");
-    }
-
-    window.addEventListener("hashchange", syncRoute);
-    syncRoute();
-
+    // Menu mobile — semua halaman
     const menuToggle = document.querySelector(".menu-toggle");
     menuToggle.addEventListener("click", function() {
       const nav = document.getElementById("main-nav");
@@ -268,8 +258,10 @@
       menuToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
-    // cari sesuai budget dan lokasi
-    document.getElementById("form-budget").addEventListener("submit", function(event) {
+    // Beranda — cari sesuai budget dan lokasi (index.html)
+    const formBudget = document.getElementById("form-budget");
+    if (formBudget) {
+      formBudget.addEventListener("submit", function(event) {
       event.preventDefault();
       const budget = Number(document.getElementById("input-budget").value);
       const kategori = document.getElementById("kategori-budget").value;
@@ -295,6 +287,7 @@
       renderList("daftar-hasil", hasil, true);
       document.getElementById("hasil-beranda").scrollIntoView({ behavior: "smooth", block: "start" });
     });
+    }
 
     let activeFilter = "semua";
     function updateBrowse() {
@@ -309,8 +302,15 @@
       document.getElementById("jelajah-info").textContent = hasil.length + " hasil";
     }
 
-    document.getElementById("jelajah-search").addEventListener("input", updateBrowse);
-    document.getElementById("jelajah-wilayah").addEventListener("change", updateBrowse);
+    // Jelajah — filter dan pencarian (jelajah.html)
+    const jelajahSearch = document.getElementById("jelajah-search");
+    if (jelajahSearch) {
+      jelajahSearch.addEventListener("input", updateBrowse);
+    }
+    const jelajahWilayah = document.getElementById("jelajah-wilayah");
+    if (jelajahWilayah) {
+      jelajahWilayah.addEventListener("change", updateBrowse);
+    }
     document.querySelectorAll(".filter-button").forEach(function(button) {
       button.addEventListener("click", function() {
         activeFilter = button.dataset.filter;
