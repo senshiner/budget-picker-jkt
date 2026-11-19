@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cari makanan dan minuman kaki lima Jakarta yang sesuai dengan budget kamu.">
+  <title>Favorit — Budget Picker JKT</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-brand" href="index.html">Budget Picker JKT</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span>Menu</span><span class="menu-lines" aria-hidden="true"></span>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Navigasi utama">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Beranda</a></li>
+          <li><a class="nav-link" href="jelajah.html">Jelajah</a></li>
+          <li><a class="nav-link" href="detail.html">Detail</a></li>
+          <li><a class="nav-link" href="favorit.html" aria-current="page">Favorit</a></li>
+          <li><a class="nav-link" href="tentang.html">Tentang</a></li>
+          <li><a class="nav-link" href="kontak.html">Kontak</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page active" id="favorit" aria-labelledby="favorit-title">
+      <div class="page-head">
+        <div class="hero-copy">
+          <h2 class="page-title" id="favorit-title">Favorit kamu.</h2>
+          <p class="lede">Simpan kuliner yang kamu suka, lalu lihat total harganya sekaligus sebelum berangkat.</p>
+        </div>
+      </div>
+      <p class="result-info" id="favorit-info"></p>
+      <ul class="food-list" id="favorit-list"></ul>
+      <p class="favorit-total" id="favorit-total" hidden></p>
+      <p class="muted" id="favorit-empty">Belum ada favorit. Ketuk ikon hati pada kuliner untuk menyimpan.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>© 2026 Senshiner — Sendi Winoto<br><span class="footer-brand">Budget Picker JKT™</span></p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
